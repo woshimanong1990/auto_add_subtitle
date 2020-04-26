@@ -83,7 +83,7 @@
         <item>
          <widget class="QPushButton" name="pushButton_5">
           <property name="text">
-           <string>提取字幕</string>
+           <string>添加字幕</string>
           </property>
          </widget>
         </item>

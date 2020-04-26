@@ -13,6 +13,7 @@ from views.extract_audio_dialog import ExtractAudioDialog
 from views.add_subtitle_dialog import AddSubtitleDialog
 from views.transform_audio_dialog import TransformAudioDialog
 from utils.variables import FileType
+from presents.main_present import MainPresent
 
 
 class MainWindow(QMainWindow, LoadingView):
@@ -23,6 +24,7 @@ class MainWindow(QMainWindow, LoadingView):
         self.dialog = None
         self.file_type = FileType.video
         self.file_path = None
+        self.present = MainPresent(self)
 
     @error_capture()
     def aboutAction(self, *args, **kwargs):
@@ -46,7 +48,11 @@ class MainWindow(QMainWindow, LoadingView):
 
     @error_capture(need_info=True)
     def startAction(self, *args, **kwargs):
-        pass
+        if not self.file_path:
+            QMessageBox.critical(None, "错误", "请选择需要添加音频的文件")
+            return
+        self.show_loading()
+        self.present.start(self.file_path, self.file_type == FileType.audio)
 
     @error_capture()
     def extracAudionAction(self, *args, **kwargs):
@@ -64,7 +70,10 @@ class MainWindow(QMainWindow, LoadingView):
         self.dialog.exec_()
 
     def selectFileAction(self, *args, **kwargs):
-        file_path, _ = QFileDialog.getOpenFileName(None, "选择文件", "", "音频(*.wav)")
+        if self.file_type == FileType.audio:
+            file_path, _ = QFileDialog.getOpenFileName(None, "选择文件", "", "音频(*.wav *.mp3)")
+        else:
+            file_path, _ = QFileDialog.getOpenFileName(None, "选择文件", "", "视频(*.mp4 *.mov *.flv)")
         if not file_path:
             QMessageBox.critical(None, '错误', '没有选择文件')
             return
@@ -77,6 +86,17 @@ class MainWindow(QMainWindow, LoadingView):
             self.file_type = FileType.audio
         else:
             self.file_type = FileType.video
+
+    @error_capture(need_info=True)
+    def show_result(self, result, is_error):
+        self.finish_loading()
+        if is_error:
+            QMessageBox.critical(None, '错误', str(result))
+            return
+        QMessageBox.information(None, "提示", "操作成功")
+        if os.path.isfile(self.file_path):
+            os.startfile(os.path.dirname(self.file_path))
+
 
 
 

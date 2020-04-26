@@ -193,7 +193,7 @@ def cut_audio(wave_path):
 
 
 def main():
-    result = cut_audio(r"C:\Users\Administrator\Downloads\AutosubBehindWall-master\dataset\ted80001.wav")
+    result = cut_audio(r"dataset\ted80001.wav")
     for i in result[0]:
         print(i[1], i[2])
 

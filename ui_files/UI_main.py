@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
         self.radioButton_2.setText(_translate("MainWindow", "视频"))
         self.label.setText(_translate("MainWindow", "文件路径"))
         self.pushButton.setText(_translate("MainWindow", "选择"))
-        self.pushButton_5.setText(_translate("MainWindow", "提取字幕"))
+        self.pushButton_5.setText(_translate("MainWindow", "添加字幕"))
         self.label_2.setText(_translate("MainWindow", "工具"))
         self.pushButton_2.setText(_translate("MainWindow", "提取音频"))
         self.pushButton_3.setText(_translate("MainWindow", "音频转换"))

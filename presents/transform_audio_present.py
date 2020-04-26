@@ -4,7 +4,7 @@ import os
 from presents.common_present import CommonPresent
 
 
-class ExtractAudioPresent(CommonPresent):
+class TransformAudioPresent(CommonPresent):
 
     def process_audio(self, audio_file, audio_dir):
         trans_audio_file = audio_file

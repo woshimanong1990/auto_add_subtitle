@@ -6,15 +6,18 @@ import sys
 from auto_add_subtitle.utils.logger_utils import error_capture_wrapper
 
 
-def get_root_dir():
+def get_root_dir(is_relative_to_execute=False):
     if getattr(sys, 'frozen', False):
-        return os.path.dirname(sys.executable)
+        if is_relative_to_execute:
+            return os.path.dirname(sys.executable)
+        else:
+            return sys._MEIPASS
     else:
         return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def get_file_path(path):
-    root_dir = get_root_dir()
+def get_file_path(path, is_relative_to_execute=False):
+    root_dir = get_root_dir(is_relative_to_execute=is_relative_to_execute)
     basename = os.path.basename(path)
     if getattr(sys, 'frozen', False):
         return os.path.join(root_dir, basename)
@@ -24,7 +27,7 @@ def get_file_path(path):
 
 @error_capture_wrapper(error_value={})
 def get_settings():
-    settings_path = get_file_path('data/settings.json')
+    settings_path = get_file_path('data/settings.json', is_relative_to_execute=True)
     if not os.path.isfile(settings_path):
         return {}
     with open(settings_path, "r") as f:

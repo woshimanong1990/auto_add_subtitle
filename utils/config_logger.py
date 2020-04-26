@@ -22,7 +22,8 @@ def setup_logger(file_name):
     log_config_dict = {}
     fmt = "%(levelname)s,%(name)s %(asctime)s %(module)s,%(lineno)s %(message)s"
     # todo:debug
-    level = "WARNING"
+    # level = "WARNING"
+    level = "DEBUG"
     log_config_dict[
         "format"] = fmt
     log_config_dict["level"] = level

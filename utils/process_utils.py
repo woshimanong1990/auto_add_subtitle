@@ -28,10 +28,15 @@ def subprocess_args(include_stdout=True):
 def extra_audio_and_transform(file_path, audio_file_path):
     ffmpeg = get_ffmpeg_file_path()
     FNULL = open(os.devnull, 'w')
+    LOGGER.info("start extra audio")
+    # stdout=FNULL,
     subprocess.check_call([ffmpeg, "-i", file_path, "-ac", '1',  '-ar', '16000',
-                             '-f', 'wav', '-vn', audio_file_path],
-                          stdout=FNULL, stderr=subprocess.STDOUT
+                           '-acodec', "pcm_s16le",
+                           '-f', 'wav', '-vn', '-y', audio_file_path],
+                          stdout=FNULL,
+                          stderr=subprocess.STDOUT
                           )
+    LOGGER.info("extra audio done")
 
 
 def replace_srt_file_path(srt_file):
@@ -68,7 +73,7 @@ def extract_video_duration(video_path):
 
 def combine_video_and_srt(video_file, srt_file, new_file_path=None):
     if new_file_path is None:
-        new_file_name = os.path.join(os.path.dirname(video_file),
+        new_file_path = os.path.join(os.path.dirname(video_file),
                                      "{}_new{}".format(*os.path.splitext(os.path.basename(video_file))))
 
     ffmpeg = get_ffmpeg_file_path()
@@ -78,7 +83,7 @@ def combine_video_and_srt(video_file, srt_file, new_file_path=None):
              '-c:a', "copy",
              "-b:v", str(bit_rate),
              "-bufsize", "1M",
-             "-y", new_file_name]
+             "-y", new_file_path]
     FNULL = open(os.devnull, 'w')
     subprocess.check_call(call_, stdout=FNULL, stderr=subprocess.STDOUT)
 

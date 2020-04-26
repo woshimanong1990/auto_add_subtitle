@@ -7,6 +7,7 @@ from utils.process_utils import extra_audio_and_transform, combine_video_and_srt
 from auto_add_subtitle.utils.media_utils import cut_audio
 from auto_add_subtitle.utils.request_utils import parse_audio_baidu
 from auto_add_subtitle.utils.file_utils import write_srt_file
+from utils.variables import LOGGER
 
 
 class CommonPresent:
@@ -18,7 +19,9 @@ class CommonPresent:
         if not audio_file_path:
             audio_file_path = os.path.join(os.path.dirname(video_file),
                                            "{}.wav".format(os.path.splitext(os.path.basename(video_file))[0]))
+        LOGGER.info("will extra audio and transform")
         extra_audio_and_transform(video_file, audio_file_path)
+        LOGGER.info("extra audio and transform done")
         return audio_file_path
 
     def transform_audio(self, audio_file, trans_audio_file_path=None):
@@ -52,6 +55,7 @@ class CommonPresent:
         combine_video_and_srt(video_file, srt_file, new_file_name)
 
     def process_file(self, file_path, is_audio):
+        LOGGER.info("will process file %s ,is_audio %s", file_path, is_audio)
         audio_file_path = os.path.join(os.path.dirname(file_path),
                                        "{}.wav".format(os.path.splitext(os.path.basename(file_path))[0]))
         if is_audio:
@@ -66,10 +70,13 @@ class CommonPresent:
             self.extract_audio(file_path, audio_file_path)
         srt_file = os.path.join(os.path.dirname(audio_file_path),
                                 "{}.srt".format(os.path.splitext(os.path.basename(audio_file_path))[0]))
-
+        LOGGER.info("will generate subtitle")
         self.generate_subtitle(audio_file_path, srt_file)
+        LOGGER.info(" generate subtitle done")
         if not is_audio:
+            LOGGER.info("will combine video and subtitle")
             self.combine_video_and_srt(file_path, srt_file)
+            LOGGER.info("combine video and subtitle done")
 
     def start(self, *args, **kwargs):
         raise NotImplementedError()
