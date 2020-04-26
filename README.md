@@ -6,7 +6,7 @@
 # 软件使用说明
 软件提供音频输出字幕，以及视频自动添加字幕并输出。视频还会在同目录下输出srt
 
-![img](res\images\detail.png)
+![img](res/images/detail.png)
 
 ## 功能说明
 
