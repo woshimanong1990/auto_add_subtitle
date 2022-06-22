@@ -1,6 +1,6 @@
 baidu-aip==2.2.18.0
 matplotlib==3.2.1
-numpy==1.18.0
+numpy==1.22.0
 PyAudio==0.2.11
 pydub==0.23.1
 PySide2==5.14.2
